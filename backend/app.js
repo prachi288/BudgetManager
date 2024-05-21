@@ -3,6 +3,7 @@ const cors = require('cors');
 const { db } = require('./db/db');
 const {readdirSync} = require('fs')
 const app = express()
+const transaction=require('./routes/transactions')
 
 require('dotenv').config()
 
@@ -11,9 +12,11 @@ const PORT = process.env.PORT
 //middlewares
 app.use(express.json())
 app.use(cors({origin:"https://budgetclub.netlify.app", credentials:true}));
+//app.use(cors())
+app.use('/api/v1',transaction)
 
 //routes
-readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
+//readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
 
 const server = () => {
     db()
